@@ -1,0 +1,6 @@
+mvn help:describe -Dcmd=compiler:compile
+
+Décrit le plugin maven pour compiler le projet.
+Il affiche le nom du plugin, sa version, objectifs et les paramètres requis.
+
+Utile pour vérifier la validité de la configuration du projet.
