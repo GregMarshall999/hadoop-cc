@@ -1,5 +1,6 @@
 package fr.dawan.paris.big.data.cc;
 
+import fr.dawan.paris.BigDataCC;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -52,5 +53,22 @@ public class EnedisDataSet {
             sparkSession.close();
             logger.info("Session Spark fermée.");
         }
+    }
+
+    public String compute(String reqKey) {
+        // Charger la requête SQL depuis les propriétés
+        String sqlQuery = BigDataCC.props.getProperty(reqKey);
+        if (sqlQuery == null) {
+            throw new IllegalArgumentException("La clé " + reqKey + " est introuvable dans le fichier properties.");
+        }
+
+        // Exécuter la requête
+        Dataset<Row> result = sparkSession.sql(sqlQuery);
+
+        // Publier la table résultante en mémoire
+        String resultTableName = reqKey + "_result";
+        result.createOrReplaceTempView(resultTableName);
+
+        return resultTableName;
     }
 }
