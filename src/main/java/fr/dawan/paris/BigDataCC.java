@@ -35,13 +35,10 @@ public class BigDataCC {
             enedisDataSet.afficherNombreDeLignes();
 
             //Chargement SQL
-            props.load(new FileInputStream("src/main/resources/database2.properties"));
+            props.load(new FileInputStream("src/main/resources/database.properties"));
 
             EnedisDataSet sqlEnedisDataSet = new EnedisDataSet(sparkSession, "enedis_dataset.csv", "enedis_table");
-
-            //String[] queryKeys = {"residential_query", "professional_query", "enterprise_query"};
-
-            String[] queryKeys = {"test_query"};
+            String[] queryKeys = {"residential_query", "professional_query", "enterprise_query"};
 
             for (String queryKey : queryKeys) {
                 String resultTableName = sqlEnedisDataSet.compute(queryKey);

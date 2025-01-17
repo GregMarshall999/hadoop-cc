@@ -17,9 +17,10 @@ public class EnedisDataSet {
 
     /**
      * Charge un fichier dans un Spark DataSet
-     * @param sparkSession
-     * @param url
-     * @param tableName
+     * Etablie le DataFrame a partir du fichier CSV
+     * @param sparkSession Session spark pour le traitement de Data
+     * @param url adresse (physique) du fichier à charger
+     * @param tableName Nom de la DataFrame
      */
     public EnedisDataSet(SparkSession sparkSession, String url, String tableName) {
         this.sparkSession = sparkSession;
@@ -29,7 +30,7 @@ public class EnedisDataSet {
                 .option("header", "true")
                 .option("inferSchema", "true")
                 .load(url);
-                //.withColumnRenamed("week", "semaine");
+                //.withColumnRenamed("week", "semaine"); //tentative de correction de la colonne week
 
         this.dataFrame.createOrReplaceTempView(tableName);
         logger.info("Table '{}' créée dans la session Spark.", tableName);
@@ -65,7 +66,7 @@ public class EnedisDataSet {
         }
 
         // Exécuter la requête
-        Dataset<Row> result = sparkSession.sql(sqlQuery);
+        Dataset<Row> result = sparkSession.sql(sqlQuery); //potentiel erreur a throw
 
         // Publier la table résultante en mémoire
         String resultTableName = reqKey + "_result";
