@@ -12,7 +12,8 @@ public class EnedisDataSet {
     private static final Logger logger = LoggerFactory.getLogger(EnedisDataSet.class);
 
     private final SparkSession sparkSession;
-    private final Dataset<Row> dataFrame;
+
+    private Dataset<Row> dataFrame;
 
     /**
      * Charge un fichier dans un Spark DataSet
@@ -28,6 +29,7 @@ public class EnedisDataSet {
                 .option("header", "true")
                 .option("inferSchema", "true")
                 .load(url);
+                //.withColumnRenamed("week", "semaine");
 
         this.dataFrame.createOrReplaceTempView(tableName);
         logger.info("Table '{}' créée dans la session Spark.", tableName);
